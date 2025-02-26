@@ -3,6 +3,7 @@ package com.suraj.NeoShop.serviceImpl.product;
 import com.suraj.NeoShop.exception.ProductNotFoundException;
 import com.suraj.NeoShop.model.Category;
 import com.suraj.NeoShop.model.Product;
+import com.suraj.NeoShop.repository.CategoryRepository;
 import com.suraj.NeoShop.repository.ProductRepository;
 import com.suraj.NeoShop.request.RequestProduct;
 import com.suraj.NeoShop.service.product.ProductService;
@@ -16,9 +17,11 @@ public class ProductServiceImpl implements ProductService {
 
     /// constructor dep injection
     private final ProductRepository repo;
+    private final CategoryRepository catRepo;
 
-    public ProductServiceImpl(ProductRepository repo) {
+    public ProductServiceImpl(ProductRepository repo, CategoryRepository catRepo) {
         this.repo = repo;
+        this.catRepo = catRepo;
     }
 
     /// get product by id
@@ -31,17 +34,25 @@ public class ProductServiceImpl implements ProductService {
     /// add a new product
     @Override
     public Product addProduct(RequestProduct product) {
+        // checking if category is present or else create new
+        String reqCategoryName = product.getCategory().getName();
+
+        Category newCategory = Optional.ofNullable(catRepo.findCategoryByName(reqCategoryName)).orElseGet(
+                () -> {
+                    Category createCategory = new Category(reqCategoryName);
+                    return catRepo.save(createCategory);
+                }
+        );
+
         Product newProduct = new Product(
                 product.getName(),
                 product.getPrice(),
                 product.getBrand(),
                 product.getQuantity(),
-                product.getDescription()
+                product.getDescription(),
+                newCategory
         );
-        //TODO
-        Category category=product.getCategory();
-
-        return null;
+        return repo.save(newProduct);
     }
 
 
