@@ -7,22 +7,19 @@ import com.suraj.NeoShop.repository.CategoryRepository;
 import com.suraj.NeoShop.repository.ProductRepository;
 import com.suraj.NeoShop.request.RequestProduct;
 import com.suraj.NeoShop.service.product.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    /// constructor dep injection
+    /// constructor dep injection by annotation *@RequiredArgsConstructor*
     private final ProductRepository repo;
     private final CategoryRepository catRepo;
-
-    public ProductServiceImpl(ProductRepository repo, CategoryRepository catRepo) {
-        this.repo = repo;
-        this.catRepo = catRepo;
-    }
 
     /// get product by id
     @Override
@@ -37,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
         // checking if category is present or else create new
         String reqCategoryName = product.getCategory().getName();
 
-        Category newCategory = Optional.ofNullable(catRepo.findCategoryByName(reqCategoryName)).orElseGet(
+        Category newCategory = Optional.ofNullable(catRepo.findByName(reqCategoryName)).orElseGet(
                 () -> {
                     Category createCategory = new Category(reqCategoryName);
                     return catRepo.save(createCategory);
@@ -70,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
 
     /// update an existing product
     @Override
-    public Product updateProduct(Product product) {
+    public Product updateProduct(Product product,Long id) {
         return null;
     }
 

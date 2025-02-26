@@ -2,6 +2,8 @@ package com.suraj.NeoShop.request;
 
 import com.suraj.NeoShop.model.Category;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -13,5 +15,4 @@ public class RequestProduct {
     private int quantity;
     private String description;
     private Category category;
-
 }
