@@ -28,6 +28,6 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product_images")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "product")
     private List<Image> images;
 }
