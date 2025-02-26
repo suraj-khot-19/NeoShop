@@ -67,8 +67,27 @@ public class ProductServiceImpl implements ProductService {
 
     /// update an existing product
     @Override
-    public Product updateProduct(Product product,Long id) {
-        return null;
+    public Product updateProduct(RequestProduct requestProduct, Long id) {
+        //first check whether product exists or not
+        return Optional.ofNullable(getProductById(id)).map(
+                (existingProduct) -> {
+                    existingProduct.setName(requestProduct.getName());
+                    existingProduct.setBrand(requestProduct.getBrand());
+                    existingProduct.setPrice(requestProduct.getPrice());
+                    existingProduct.setDescription(requestProduct.getDescription());
+
+                    //check for category if present then add or else create
+                    String categoryName = requestProduct.getCategory().getName();
+
+                    Category newCategory = Optional.ofNullable(catRepo.findByName(categoryName)).orElseGet(() -> {
+                        Category createCategory = new Category(categoryName);
+                        return catRepo.save(createCategory);
+                    });
+
+                    existingProduct.setCategory(newCategory);
+
+                    return repo.save(existingProduct);
+                }).orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
     }
 
 
