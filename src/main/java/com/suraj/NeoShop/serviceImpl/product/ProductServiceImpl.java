@@ -97,19 +97,27 @@ public class ProductServiceImpl implements ProductService {
         return productRepo.findAll();
     }
 
-    
+
     /// get products by category
     @Override
     public List<Product> getProductsByCategory(String name) {
         /// check for category exists
         Optional.ofNullable(categoryRepo.findByName(name)).orElseThrow(() -> new ResourceNotFoundException("Category Not Found!"));
-        
-       return productRepo.findByCategoryName(name);
+
+        return productRepo.findByCategoryName(name);
     }
 
     /// get products by brand
     @Override
     public List<Product> getProductsByBrand(String brand) {
         return productRepo.findByBrand(brand);
+    }
+
+    /// get product by category and brand
+    @Override
+    public List<Product> getProductsByCategoryNameAndBrand(String category, String brand) {
+        Optional.ofNullable(categoryRepo.findByName(category)).orElseThrow(() -> new ResourceNotFoundException("Category Not Found!"));
+
+        return productRepo.findByCategoryNameAndBrand(category, brand);
     }
 }
