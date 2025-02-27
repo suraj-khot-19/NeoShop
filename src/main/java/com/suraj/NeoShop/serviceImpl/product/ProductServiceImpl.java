@@ -120,4 +120,9 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepo.findByCategoryNameAndBrand(category, brand);
     }
+
+    @Override
+    public List<Product> getProductsByName(String name) {
+        return productRepo.findByName(name);
+    }
 }

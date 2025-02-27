@@ -66,4 +66,10 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProductsByCategoryNameAndBrand(@PathVariable(name = "category") String category, @PathVariable(name = "brand") String brand) {
         return ResponseEntity.ok(service.getProductsByCategoryNameAndBrand(category, brand));
     }
+
+    /// get products by name
+    @GetMapping("/find/{name}")
+    public ResponseEntity<List<Product>> getProductsByName(@PathVariable(name = "name") String name){
+        return ResponseEntity.ok(service.getProductsByName(name));
+    }
 }
