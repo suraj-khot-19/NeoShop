@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/neoshop/product")
 public class ProductController {
-    ///  constructor dep injection
+    ///  constructor dep injection by annotation @RequiredArgsConstructor
     private final ProductService service;
 
     ///  get product by id
@@ -69,7 +69,13 @@ public class ProductController {
 
     /// get products by name
     @GetMapping("/find/{name}")
-    public ResponseEntity<List<Product>> getProductsByName(@PathVariable(name = "name") String name){
+    public ResponseEntity<List<Product>> getProductsByName(@PathVariable(name = "name") String name) {
         return ResponseEntity.ok(service.getProductsByName(name));
+    }
+
+    /// get products by name and brand
+    @GetMapping("/find/{name}/brand/{brand}")
+    public ResponseEntity<List<Product>> getProductsByNameAndBrand(@PathVariable(name = "name") String name, @PathVariable(name = "brand") String brand) {
+        return ResponseEntity.ok(service.getProductsByNameAndBrand(name, brand));
     }
 }
