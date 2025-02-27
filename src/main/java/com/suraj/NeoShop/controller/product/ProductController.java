@@ -39,7 +39,7 @@ public class ProductController {
     /// get all products
     @GetMapping("/all")
     public ResponseEntity<List<Product>> getAllProducts(){
-        return ResponseEntity.ok(service.getAllProduct());
+        return ResponseEntity.ok(service.getAllProducts());
     }
 
 
@@ -47,5 +47,11 @@ public class ProductController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Product> updateProduct(@RequestBody RequestProduct product,@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(service.updateProduct(product,id));
+    }
+
+    /// get product by category name
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable(name = "category") String name){
+        return ResponseEntity.ok(service.getProductsByCategory(name));
     }
 }

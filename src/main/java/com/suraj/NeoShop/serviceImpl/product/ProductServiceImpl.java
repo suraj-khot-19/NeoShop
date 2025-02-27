@@ -1,6 +1,6 @@
 package com.suraj.NeoShop.serviceImpl.product;
 
-import com.suraj.NeoShop.exception.ProductNotFoundException;
+import com.suraj.NeoShop.exception.ResourceNotFoundException;
 import com.suraj.NeoShop.model.Category;
 import com.suraj.NeoShop.model.Product;
 import com.suraj.NeoShop.repository.CategoryRepository;
@@ -18,14 +18,14 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     /// constructor dep injection by annotation *@RequiredArgsConstructor*
-    private final ProductRepository repo;
-    private final CategoryRepository catRepo;
+    private final ProductRepository productRepo;
+    private final CategoryRepository categoryRepo;
 
     /// get product by id
     @Override
     public Product getProductById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
+        return productRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product Not Found!"));
     }
 
     /// add a new product
@@ -34,10 +34,10 @@ public class ProductServiceImpl implements ProductService {
         // checking if category is present or else create new
         String reqCategoryName = product.getCategory().getName();
 
-        Category newCategory = Optional.ofNullable(catRepo.findByName(reqCategoryName)).orElseGet(
+        Category newCategory = Optional.ofNullable(categoryRepo.findByName(reqCategoryName)).orElseGet(
                 () -> {
                     Category createCategory = new Category(reqCategoryName);
-                    return catRepo.save(createCategory);
+                    return categoryRepo.save(createCategory);
                 }
         );
 
@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
                 product.getDescription(),
                 newCategory
         );
-        return repo.save(newProduct);
+        return productRepo.save(newProduct);
     }
 
 
@@ -58,9 +58,9 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
         Optional.ofNullable(getProductById(id))
                 .ifPresentOrElse(
-                        product -> repo.deleteById(id),
+                        product -> productRepo.deleteById(id),
                         () -> {
-                            throw new ProductNotFoundException("Product Not Found With Id: " + id);
+                            throw new ResourceNotFoundException("Product Not Found With Id: " + id);
                         });
     }
 
@@ -79,21 +79,31 @@ public class ProductServiceImpl implements ProductService {
                     //check for category if present then add or else create
                     String categoryName = requestProduct.getCategory().getName();
 
-                    Category newCategory = Optional.ofNullable(catRepo.findByName(categoryName)).orElseGet(() -> {
+                    Category newCategory = Optional.ofNullable(categoryRepo.findByName(categoryName)).orElseGet(() -> {
                         Category createCategory = new Category(categoryName);
-                        return catRepo.save(createCategory);
+                        return categoryRepo.save(createCategory);
                     });
 
                     existingProduct.setCategory(newCategory);
 
-                    return repo.save(existingProduct);
-                }).orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
+                    return productRepo.save(existingProduct);
+                }).orElseThrow(() -> new ResourceNotFoundException("Product Not Found!"));
     }
 
 
     /// get all products
     @Override
-    public List<Product> getAllProduct() {
-        return repo.findAll();
+    public List<Product> getAllProducts() {
+        return productRepo.findAll();
+    }
+
+    
+    /// get products by category
+    @Override
+    public List<Product> getProductsByCategory(String name) {
+        /// check for category exists
+        Optional.ofNullable(categoryRepo.findByName(name)).orElseThrow(() -> new ResourceNotFoundException("Category Not Found!"));
+        
+       return productRepo.findByCategoryName(name);
     }
 }

@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     /// product not found exception
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<ErrorDetails> accountNotFound(WebRequest request, ProductNotFoundException exception) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDetails> accountNotFound(WebRequest request, ResourceNotFoundException exception) {
         ErrorDetails errorDetails = new ErrorDetails(
                 LocalDateTime.now(),
                 exception.getMessage(),
-                "PRODUCT_NOT_FOUND",
+                "RESOURCE_NOT_FOUND",
                 request.getDescription(false)
         );
 

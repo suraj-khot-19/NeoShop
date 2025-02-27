@@ -10,5 +10,6 @@ public interface ProductService {
     Product addProduct(RequestProduct product);
     void deleteProduct(Long id);
     Product updateProduct(RequestProduct product,Long id);
-    List<Product> getAllProduct();
+    List<Product> getAllProducts();
+    List<Product> getProductsByCategory(String name);
 }
