@@ -4,9 +4,11 @@ import com.suraj.NeoShop.dto.ImageDto;
 import com.suraj.NeoShop.dto.ProductDto;
 import com.suraj.NeoShop.model.Image;
 import com.suraj.NeoShop.model.Product;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class Mapper {
 
     /// product to productDto

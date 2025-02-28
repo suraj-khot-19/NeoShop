@@ -14,15 +14,18 @@ import java.sql.Blob;
 @AllArgsConstructor
 @Entity
 public class Image {
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fileType;
+    @Getter
     private String fileName;
 
     @Lob
     private Blob image;
 
+    @Getter
     private String url;
 
     @ManyToOne

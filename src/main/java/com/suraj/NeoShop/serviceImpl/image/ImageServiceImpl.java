@@ -2,6 +2,7 @@ package com.suraj.NeoShop.serviceImpl.image;
 
 import com.suraj.NeoShop.dto.ImageDto;
 import com.suraj.NeoShop.exception.ResourceNotFoundException;
+import com.suraj.NeoShop.mapper.Mapper;
 import com.suraj.NeoShop.model.Image;
 import com.suraj.NeoShop.model.Product;
 import com.suraj.NeoShop.repository.image.ImageRepository;
@@ -46,39 +47,35 @@ public class ImageServiceImpl implements ImageService {
 
         for (MultipartFile file : files) {
             try {
-                //getting and setting image param
+                // getting and setting image params
                 Image image = new Image();
 
-                image.setFileName(file.getName());
+                image.setFileName(file.getOriginalFilename());
                 image.setFileType(file.getContentType());
                 image.setProduct(product);
                 image.setImage(new SerialBlob((file.getBytes()))); /// storing in bytes
 
-                //for download url stuff
-                String basicUrl = "/api/v1/NeoShop/images/image/multipart/file";
-                String downloadUrl = basicUrl + image.getId();
-
-                //now set image url
-                image.setUrl(downloadUrl);
 
                 Image savedimage = imageRepo.save(image);///do-not forgot to save
 
+                //for download url stuff
+                String basicUrl = "/api/v1/neoshop/image/multipart/file/";
+
+                /// update an url
+                savedimage.setUrl(basicUrl + savedimage.getId());
+
+                Image finalSavedimage = imageRepo.save(savedimage);
+
                 /// now convert image to dto
-                ImageDto imageDto = new ImageDto(
-                        image.getId(),
-                        image.getFileName(),
-                        image.getUrl()
-                );
+                ImageDto imageDto = Mapper.convertToImageDto(finalSavedimage);
 
                 /// and append this to list of image dto
                 savedImageDto.add(imageDto);
             } catch (IOException | SQLException e) {
                 throw new RuntimeException(e.getMessage());
             }
-            return savedImageDto;
         }
-
-        return List.of();
+        return savedImageDto;
     }
 
 
@@ -94,6 +91,7 @@ public class ImageServiceImpl implements ImageService {
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
-        return new ImageDto(image.getId(), image.getFileName(), image.getUrl());
+        return Mapper.convertToImageDto(image);
     }
+
 }
