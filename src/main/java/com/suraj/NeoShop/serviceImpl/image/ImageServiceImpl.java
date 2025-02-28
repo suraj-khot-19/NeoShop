@@ -80,4 +80,20 @@ public class ImageServiceImpl implements ImageService {
 
         return List.of();
     }
+
+
+    /// update and image
+    @Override
+    public ImageDto updateAnImage(Long id, MultipartFile file) {
+        Image image = getImageById(id);
+        try {
+            image.setFileName(file.getName());
+            image.setFileType(file.getContentType());
+            image.setImage(new SerialBlob(file.getBytes()));
+            imageRepo.save(image);///do not forget to save
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return new ImageDto(image.getId(), image.getFileName(), image.getUrl());
+    }
 }

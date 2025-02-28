@@ -38,4 +38,8 @@ public class ImageController {
     }
 
     /// update image
+    @PutMapping("/update/{id}")
+    public ResponseEntity<SendResponse<ImageDto>> updateAnImage(@PathVariable Long id, @RequestBody MultipartFile file) {
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Image Updated SuccessFully!", service.updateAnImage(id, file)));
+    }
 }
