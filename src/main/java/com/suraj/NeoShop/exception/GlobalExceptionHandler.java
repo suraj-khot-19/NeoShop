@@ -23,4 +23,17 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
+
+    /// generic exception
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorDetails> genericException(RuntimeException exception, WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                "INTERNAL_SERVER_ERROR",
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
