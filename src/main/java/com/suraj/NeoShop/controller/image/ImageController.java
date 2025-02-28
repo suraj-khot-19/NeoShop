@@ -32,7 +32,10 @@ public class ImageController {
     }
 
     /// save image
-
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<SendResponse<List<ImageDto>>> uploadImageForProduct(@PathVariable Long prodId, @RequestBody List<MultipartFile> files) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SendResponse<>(HttpStatus.CREATED, "Image Uploaded Successfully!", service.uploadImageForProduct(prodId, files)));
+    }
 
     /// update image
 }
