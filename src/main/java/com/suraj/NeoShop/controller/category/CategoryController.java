@@ -1,6 +1,7 @@
 package com.suraj.NeoShop.controller.category;
 
 import com.suraj.NeoShop.model.Category;
+import com.suraj.NeoShop.model.Product;
 import com.suraj.NeoShop.request.RequestCategory;
 import com.suraj.NeoShop.response.SendResponse;
 import com.suraj.NeoShop.service.category.CategoryService;
@@ -40,5 +41,20 @@ public class CategoryController {
     @PostMapping("/new")
     public ResponseEntity<SendResponse<Category>> addNewCategory(@RequestBody RequestCategory category) {
         return ResponseEntity.ok(new SendResponse<>(HttpStatus.CREATED, "Category Created Successfully!", service.addNewCategory(category)));
+    }
+
+    /// delete a category by id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SendResponse<Void>> deleteCategoryById(@PathVariable Long id) {
+        service.deleteCategoryById(id);
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.NO_CONTENT, "Category Deleted Successfully!", null));
+    }
+
+
+    /// update a category
+    @PutMapping("/{id}")
+    public ResponseEntity<SendResponse<Category>> updateAnExistingCategory(@PathVariable Long id, @RequestBody RequestCategory category) {
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Product Updated Successfully", service.updateAnExistingCategory
+                (id, category)));
     }
 }

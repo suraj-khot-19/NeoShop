@@ -34,8 +34,8 @@ public class CategoryServiceImpl implements CategoryService {
     /// get cat by id
     @Override
     public Category getCategoryById(Long id) {
-        return Optional.of(categoryRepo.findById(id))
-                .get().orElseThrow(() -> new ResourceNotFoundException("Category Not Found!"));
+        return categoryRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category Not Found!"));
     }
 
     /// add new cat
@@ -47,7 +47,27 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         Category createCategory = new Category();
-        createCategory.setName(category.getName());
+        createCategory.setName(category.getName().trim());
         return categoryRepo.save(createCategory);
+    }
+
+    /// delete by id
+    @Override
+    public void deleteCategoryById(Long id) {
+        Category category = getCategoryById(id);
+        categoryRepo.delete(category);
+    }
+
+    /// update an existing category
+    @Override
+    public Category updateAnExistingCategory(Long id, RequestCategory category) {
+        Category findCategory = getCategoryById(id);
+
+        if (findCategory.getName() != null && findCategory.getName().trim().equals(category.getName().trim())) {
+            throw new AlreadyExistsException("Updating Category With Same Name");
+        }
+
+        findCategory.setName(category.getName().trim());
+        return categoryRepo.save(findCategory);
     }
 }
