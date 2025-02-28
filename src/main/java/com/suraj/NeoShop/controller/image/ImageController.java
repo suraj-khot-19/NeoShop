@@ -1,5 +1,6 @@
 package com.suraj.NeoShop.controller.image;
 
+import com.suraj.NeoShop.dto.ImageDto;
 import com.suraj.NeoShop.model.Image;
 import com.suraj.NeoShop.response.SendResponse;
 import com.suraj.NeoShop.service.image.ImageService;
@@ -7,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/neoshop/image")
@@ -28,6 +32,7 @@ public class ImageController {
     }
 
     /// save image
+
 
     /// update image
 }

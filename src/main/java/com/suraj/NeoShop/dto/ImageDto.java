@@ -1,4 +1,4 @@
 package com.suraj.NeoShop.dto;
 
-public record ImageDto() {
+public record ImageDto(Long id, String fileName, String url) {
 }
