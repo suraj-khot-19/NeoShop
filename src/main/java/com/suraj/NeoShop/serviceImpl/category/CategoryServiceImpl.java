@@ -3,7 +3,7 @@ package com.suraj.NeoShop.serviceImpl.category;
 import com.suraj.NeoShop.exception.AlreadyExistsException;
 import com.suraj.NeoShop.exception.ResourceNotFoundException;
 import com.suraj.NeoShop.model.Category;
-import com.suraj.NeoShop.repository.CategoryRepository;
+import com.suraj.NeoShop.repository.category.CategoryRepository;
 import com.suraj.NeoShop.request.RequestCategory;
 import com.suraj.NeoShop.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;

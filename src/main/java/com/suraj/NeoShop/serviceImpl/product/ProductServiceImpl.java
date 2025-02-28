@@ -3,8 +3,8 @@ package com.suraj.NeoShop.serviceImpl.product;
 import com.suraj.NeoShop.exception.ResourceNotFoundException;
 import com.suraj.NeoShop.model.Category;
 import com.suraj.NeoShop.model.Product;
-import com.suraj.NeoShop.repository.CategoryRepository;
-import com.suraj.NeoShop.repository.ProductRepository;
+import com.suraj.NeoShop.repository.category.CategoryRepository;
+import com.suraj.NeoShop.repository.product.ProductRepository;
 import com.suraj.NeoShop.request.RequestProduct;
 import com.suraj.NeoShop.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -56,12 +56,8 @@ public class ProductServiceImpl implements ProductService {
     /// delete a product
     @Override
     public void deleteProduct(Long id) {
-        Optional.ofNullable(getProductById(id))
-                .ifPresentOrElse(
-                        product -> productRepo.deleteById(id),
-                        () -> {
-                            throw new ResourceNotFoundException("Product Not Found With Id: " + id);
-                        });
+        Product product=getProductById(id);
+        productRepo.delete(product);
     }
 
 

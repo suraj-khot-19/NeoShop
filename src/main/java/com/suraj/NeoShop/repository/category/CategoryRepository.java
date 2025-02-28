@@ -1,4 +1,4 @@
-package com.suraj.NeoShop.repository;
+package com.suraj.NeoShop.repository.category;
 
 import com.suraj.NeoShop.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
