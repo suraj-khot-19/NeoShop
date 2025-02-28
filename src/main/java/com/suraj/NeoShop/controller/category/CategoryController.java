@@ -1,7 +1,5 @@
 package com.suraj.NeoShop.controller.category;
 
-import com.suraj.NeoShop.exception.AlreadyExistsException;
-import com.suraj.NeoShop.exception.ResourceNotFoundException;
 import com.suraj.NeoShop.model.Category;
 import com.suraj.NeoShop.request.RequestCategory;
 import com.suraj.NeoShop.response.SendResponse;
@@ -10,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,33 +20,25 @@ public class CategoryController {
 
     /// get all categories
     @GetMapping("/all")
-    public ResponseEntity<SendResponse> getAllCategories() {
-        return ResponseEntity.ok(new SendResponse("Fetched All Categories!", service.getAllCategories()));
+    public ResponseEntity<SendResponse<List<Category>>> getAllCategories() {
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Fetched All Categories!", service.getAllCategories()));
     }
 
     /// get cat by name
     @GetMapping("/find/{name}")
-    public ResponseEntity<SendResponse> getCategoryByName(@PathVariable String name) {
-        try {
-            return ResponseEntity.ok(new SendResponse("Fetched Category Successfully!", service.getCategoryByName(name)));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new SendResponse(e.getMessage(), null));
-        }
+    public ResponseEntity<SendResponse<Category>> getCategoryByName(@PathVariable String name) {
+        return ResponseEntity.ok(new SendResponse<Category>(HttpStatus.OK, "Fetched Category Successfully!", service.getCategoryByName(name)));
     }
 
     /// get category by id
     @GetMapping("/{id}")
-    public ResponseEntity<SendResponse> getCategoryById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(new SendResponse("Fetched Category Successfully!", service.getCategoryById(id)));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new SendResponse(e.getMessage(), null));
-        }
+    public ResponseEntity<SendResponse<Category>> getCategoryById(@PathVariable Long id) {
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Fetched Category Successfully!", service.getCategoryById(id)));
     }
 
     /// add new category
     @PostMapping("/new")
-    public ResponseEntity<SendResponse> addNewCategory(@RequestBody RequestCategory category) {
-        return ResponseEntity.ok(new SendResponse("Category Created Successfully!", service.addNewCategory(category)));
+    public ResponseEntity<SendResponse<Category>> addNewCategory(@RequestBody RequestCategory category) {
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.CREATED, "Category Created Successfully!", service.addNewCategory(category)));
     }
 }

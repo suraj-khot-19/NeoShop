@@ -41,17 +41,13 @@ public class CategoryServiceImpl implements CategoryService {
     /// add new cat
     @Override
     public Category addNewCategory(RequestCategory category) {
-        Category createCategory = new Category();
-
-        //check if already exists
-        Category newCategory = categoryRepo.findByName(category.getName());
-
-        //if not
-        if (newCategory == null) {
-            createCategory.setName(category.getName());
-            return categoryRepo.save(createCategory);
-        } else {
+        //if category already exists
+        if (categoryRepo.findByName(category.getName()) != null) {
             throw new AlreadyExistsException("Category Already Exists!");
         }
+
+        Category createCategory = new Category();
+        createCategory.setName(category.getName());
+        return categoryRepo.save(createCategory);
     }
 }
