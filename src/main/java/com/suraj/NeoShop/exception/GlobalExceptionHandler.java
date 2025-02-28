@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    /// product not found exception
+    /// resource not found exception
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetails> accountNotFound(WebRequest request, ResourceNotFoundException exception) {
+    public ResponseEntity<ErrorDetails> resourceNotFound(WebRequest request, ResourceNotFoundException exception) {
         ErrorDetails errorDetails = new ErrorDetails(
                 LocalDateTime.now(),
                 exception.getMessage(),
@@ -23,6 +23,19 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
+
+    /// already exists exception
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<ErrorDetails> alreadyExistsError(AlreadyExistsException exception, WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                "ALREADY_EXISTS_ERROR",
+                request.getDescription(false)
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+    }
+
 
     /// generic exception
     @ExceptionHandler(RuntimeException.class)
