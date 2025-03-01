@@ -30,6 +30,11 @@ public class Mapper {
         );
     }
 
+    /// covert List of product to list of dto
+    public static List<ProductDto> convertToListProductDto(List<Product> products) {
+        return products.stream().map((product -> Mapper.convertToProductDto(product, product.getImages()))).toList();
+    }
+
     /// image to ImageDto
     public static ImageDto convertToImageDto(Image image) {
         return new ImageDto(
