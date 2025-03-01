@@ -39,11 +39,19 @@ online shopping platform, featuring product management, user authentication, and
 # Installation
 
 1. **Clone the repository**
-   ```sh
-   git clone https://github.com/your-username/neo-shop.git
-   cd neo-shop
+   <details>
+     <summary><b>github</b></summary>
+
+      ```sh
+      git clone https://github.com/suraj-khot-19/NeoShop.git
+      ```
+   </details>
+
 2. **Configure Database**
    Update application.properties for MySQL.
+   <details>
+     <summary><b>application.properties</b></summary>
+
     ```properties
     #server
     server.port=${SPRING_NEO_SHOP_SERVER_PORT}
@@ -62,18 +70,32 @@ online shopping platform, featuring product management, user authentication, and
     spring.servlet.multipart.max-file-size=5MB
     spring.servlet.multipart.max-request-size=5MB
     ```
+   </details>
+
 3. **.env config**
-   ```properties
-    SPRING_NEO_SHOP_MYSQL_PASS=PASSWORD
-    SPRING_NEO_SHOP_MYSQL_URL=jdbc:mysql://localhost:3306/DB_NAME
-    SPRING_NEO_SHOP_MYSQL_USER=USERNAME
-    SPRING_NEO_SHOP_SERVER_PORT=SERVER_PORT
-   ```
+   <details>
+     <summary><b>.env</b></summary>
+
+      ```properties
+       SPRING_NEO_SHOP_MYSQL_PASS=PASSWORD
+   SPRING_NEO_SHOP_MYSQL_URL=jdbc:mysql://localhost:3306/DB_NAME
+   SPRING_NEO_SHOP_MYSQL_USER=USERNAME
+   SPRING_NEO_SHOP_SERVER_PORT=SERVER_PORT
+      ```
+
+   </details>
+
 4. **Build & Run the Application**
 
 ---
 
 # Database Schema
+
+## mysql schema
+
+![img](outputs/product/mysql.png)
+<br>
+
 <details>
   <summary><b>Product</b></summary>
 
@@ -117,9 +139,173 @@ online shopping platform, featuring product management, user authentication, and
 
 # API Endpoints
 
+<details>
+  <summary><b>Product</b></summary>
+
+- **`GET /api/v1/neoshop/product/all`** → Retrieves all products
+    1. get all products
+       ![All Products](outputs/product/all_products.png)
+
+    2. error if empty list
+       ![All Products](outputs/product/all_product_error.png)
+
+- **`GET /api/v1/neoshop/product/{id}`** → Retrieves a specific product by ID
+    1. product by id
+       ![Single Product](outputs/product/product_id.png)
+    2. error if not found
+       ![Single Product](outputs/product/product_id_error.png)
+
+- **`POST /api/v1/neoshop/product/new`** → Creates a new product (Admin only)
+    1. Json in body
+       ```json
+       {
+       "name": "LG 420L Frost-Free Double Door Refrigerator",
+       "price": 52999,
+       "brand": "LG",
+       "quantity": 20,
+       "description": "LG 420L frost-free double-door refrigerator with inverter compressor, multi-air flow cooling, and smart diagnosis.",
+       "category": "refrigerator"
+       }
+       ```
+    2. successfully create a product
+       ![Create Product](outputs/product/add_product.png)
+
+- **`PUT /api/v1/neoshop/product/update/{id}}`** → Updates an existing product (Admin only)
+    1. update an product
+       ![Update Product](outputs/product/update_product.png)
+
+    2. If no category found it creates new
+       ![Update Product](outputs/product/update_product_new_category.png)
+
+    3. Error if no product found
+       ![Update Product](outputs/product/update_product_error.png)
+
+- **`DELETE /api/v1/neoshop/product/{id}`** → Deletes a product (Admin only)
+    1. delete a product
+       ![img](outputs/product/delete_product.png)
+
+    2. Error if no product found
+       ![img](outputs/product/delete_product_error.png)
+
+- **`GET /api/v1/neoshop/product/category/{name}`** → get product by category
+    1. get a product
+       ![img](outputs/product/product_by_category.png)
+
+    2. Error if no product found
+       ![img](outputs/product/product_category_no.png)
+    3. if no category found
+       ![img](outputs/product/product_by_category_error.png)
+
+- **`GET /api/v1/neoshop/product/brand/{name}`** → get product by brand
+    1. get a product
+       ![img](outputs/product/product_by_brand.png)
+
+    2. Error if no product found
+       ![img](outputs/product/product_brand_error.png)
+
+- **`GET api/v1/neoshop/product/category/{category}/brand/{brand}`** → get product by category and brand
+    1. get a product
+       ![img](outputs/product/product_category_brand.png)
+
+    2. if category not exists
+       ![img](outputs/product/product_category_brand_error_category.png)
+
+    3. Error if no product found
+       ![img](outputs/product/product_category_brand_no.png)
+
+- **`GET /api/v1/neoshop/product/find/{name}`** → get product by name
+    1. get a product
+       ![img](outputs/product/product_name.png)
+
+    2. if product not exists
+       ![img](outputs/product/product_name_error.png)
+
+- **`GET /api/v1/neoshop/product/find/{name}/brand/{brand}`** → get product by name and brand
+    1. get a product
+       ![img](outputs/product/product_name_brand.png)
+
+    2. if product not exists
+       ![img](outputs/product/product_name_brand_error.png)
+
+- **`POST /api/v1/neoshop/image/upload/{id}}`** → upload image for product
+    1. upload image for product
+       ![img](outputs/product/imgae_for_product.png)
+
+    2. download image or show
+       ![img](outputs/product/download_image.png)
+  </details>
+
+[//]: # (<details>)
+
+[//]: # (  <summary><b>Image</b></summary>)
+
+[//]: # ()
+
+[//]: # (- **`POST /api/images/upload`** → Uploads an image  )
+
+[//]: # (  ![Upload Image]&#40;assets/images/upload-image.png&#41;)
+
+[//]: # ()
+
+[//]: # (- **`GET /api/images/{id}`** → Retrieves an image by ID  )
+
+[//]: # (  ![Get Image]&#40;assets/images/get-image.png&#41;)
+
+[//]: # ()
+
+[//]: # (- **`DELETE /api/images/{id}`** → Deletes an image  )
+
+[//]: # (  ![Delete Image]&#40;assets/images/delete-image.png&#41;)
+
+[//]: # ()
+
+[//]: # (</details>)
+
+[//]: # ()
+
+[//]: # (<details>)
+
+[//]: # (  <summary><b>Category</b></summary>)
+
+[//]: # ()
+
+[//]: # (- **`GET /api/categories`** → Retrieves all categories  )
+
+[//]: # (  ![Get Categories]&#40;assets/images/get-categories.png&#41;)
+
+[//]: # ()
+
+[//]: # (- **`GET /api/categories/{id}`** → Retrieves a category by ID  )
+
+[//]: # (  ![Get Category]&#40;assets/images/get-category-by-id.png&#41;)
+
+[//]: # ()
+
+[//]: # (- **`POST /api/categories`** → Creates a new category &#40;Admin only&#41;  )
+
+[//]: # (  ![Create Category]&#40;assets/images/post-category.png&#41;)
+
+[//]: # ()
+
+[//]: # (- **`PUT /api/categories/{id}`** → Updates an existing category &#40;Admin only&#41;  )
+
+[//]: # (  ![Update Category]&#40;assets/images/put-category.png&#41;)
+
+[//]: # ()
+
+[//]: # (- **`DELETE /api/categories/{id}`** → Deletes a category &#40;Admin only&#41;  )
+
+[//]: # (  ![Delete Category]&#40;assets/images/delete-category.png&#41;)
+
+[//]: # ()
+
+[//]: # (</details>)
+
+
 ---
 
 # Project Structure
+
 ```bash
 NeoShop/
 │── src/main/java/com/suraj/NeoShop/
