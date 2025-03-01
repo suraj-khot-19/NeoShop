@@ -1,5 +1,7 @@
 package com.suraj.NeoShop.controller.product;
 
+import com.suraj.NeoShop.dto.ProductDto;
+import com.suraj.NeoShop.mapper.Mapper;
 import com.suraj.NeoShop.model.Product;
 import com.suraj.NeoShop.request.RequestProduct;
 import com.suraj.NeoShop.response.SendResponse;
@@ -20,14 +22,20 @@ public class ProductController {
 
     ///  get product by id
     @GetMapping("/{id}")
-    public ResponseEntity<SendResponse<Product>> getProductById(@PathVariable Long id) {
-        return ResponseEntity.ok(new SendResponse<Product>(HttpStatus.OK, "Product Fetched Successfully!", service.getProductById(id)));
+    public ResponseEntity<SendResponse<ProductDto>> getProductById(@PathVariable Long id) {
+        Product product = service.getProductById(id);
+        ProductDto productDto = Mapper.convertToProductDto(product);
+
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Product Fetched Successfully!", productDto));
     }
 
     /// add new product
     @PostMapping("/new")
-    public ResponseEntity<SendResponse<Product>> addNewProduct(@RequestBody RequestProduct product) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(new SendResponse<>(HttpStatus.CREATED, "Product Added Successfully!", service.addProduct(product)));
+    public ResponseEntity<SendResponse<ProductDto>> addNewProduct(@RequestBody RequestProduct product) {
+        Product newProduct = service.addProduct(product);
+        ProductDto productDto = Mapper.convertToProductDto(newProduct);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SendResponse<>(HttpStatus.CREATED, "Product Added Successfully!", productDto));
     }
 
     /// delete by id
@@ -39,8 +47,14 @@ public class ProductController {
 
     /// get all products
     @GetMapping("/all")
-    public ResponseEntity<SendResponse<List<Product>>> getAllProducts() {
-        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", service.getAllProducts()));
+    public ResponseEntity<SendResponse<List<ProductDto>>> getAllProducts() {
+        List<Product> products = service.getAllProducts();
+        List<ProductDto> productDto = Mapper.convertToListProductDto(products);
+
+        if (products.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new SendResponse<>(HttpStatus.NOT_FOUND, "No Products In DB!", productDto));
+        }
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", productDto));
     }
 
 
@@ -52,7 +66,7 @@ public class ProductController {
 
     /// get products by category name
     @GetMapping("/category/{category}")
-    public ResponseEntity<SendResponse<List<Product>>> getProductsByCategory(@PathVariable String name) {
+    public ResponseEntity<SendResponse<List<Product>>> getProductsByCategory(@PathVariable(name = "category") String name) {
         List<Product> products = service.getProductsByCategory(name);
         if (products.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new SendResponse<>(HttpStatus.NOT_FOUND, "No Products Found!", null));

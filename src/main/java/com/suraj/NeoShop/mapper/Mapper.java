@@ -6,20 +6,22 @@ import com.suraj.NeoShop.model.Image;
 import com.suraj.NeoShop.model.Product;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class Mapper {
 
     /// product to productDto
-    public static ProductDto convertToProductDto(Product product, List<Image> images) {
-        /// before save images convert to dto
-        List<ImageDto> imageDto = images.stream()
-                .map(Mapper::convertToImageDto)
-                .toList();
+    public static ProductDto convertToProductDto(Product product) {
+        /// before save images convert to dto(if null then [] set it to empty)
+        List<ImageDto> imageDto = (product.getImages() != null) ?
+                product.getImages().stream().map(Mapper::convertToImageDto).toList() :
+                new ArrayList<>();
 
         //return product dto
         return new ProductDto(
+                product.getId(),
                 product.getName(),
                 product.getPrice(),
                 product.getBrand(),
@@ -32,7 +34,7 @@ public class Mapper {
 
     /// covert List of product to list of dto
     public static List<ProductDto> convertToListProductDto(List<Product> products) {
-        return products.stream().map((product -> Mapper.convertToProductDto(product, product.getImages()))).toList();
+        return products.stream().map(Mapper::convertToProductDto).toList();
     }
 
     /// image to ImageDto
