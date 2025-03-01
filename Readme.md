@@ -235,36 +235,41 @@ online shopping platform, featuring product management, user authentication, and
        ![img](outputs/product/download_image.png)
   </details>
 
-[//]: # (<details>)
+<details>
+  <summary><b>Image</b></summary>
 
-[//]: # (  <summary><b>Image</b></summary>)
+- **`POST /api/v1/neoshop/image/upload/{id}`** → Uploads an image
+    1. upload image for product
+       ![Upload Image](outputs/image/upload%20image%20for%20product.png)
+    2. upload image error
+       ![Upload Image](outputs/image/upload%20image%20for%20product%20error.png)
 
-[//]: # ()
+- **`GET api/v1/neoshop/image/{id}`** → Retrieves an image by ID
+    1. get by id
+       ![Get Image](outputs/image/image%20id.png)
+    2. get by id error
+       ![Get Image](outputs/image/image%20id%20error.png)
 
-[//]: # (- **`POST /api/images/upload`** → Uploads an image  )
+- **`DELETE /api/v1/neoshop/image/{id}`** → Deletes an image
+    1. delete by id
+       ![Delete Image](outputs/image/delete%20image.png)
+    2. delete by id error
+       ![Delete Image](outputs/image/delete%20image%20error.png)
 
-[//]: # (  ![Upload Image]&#40;assets/images/upload-image.png&#41;)
+- **`GET /api/v1/neoshop/image/multipart/file/{id}`** → download an image
+    1. download image by url
+       ![Delete Image](outputs/image/download%20image.png)
 
-[//]: # ()
+- **`PUT /api/v1/neoshop/image/update/{id}`** → update an image
+    1. update an image
+       ![Delete Image](outputs/image/update%20image.png)
+    2. update an image error
+       ![Delete Image](outputs/image/update%20image%20error.png)
 
-[//]: # (- **`GET /api/images/{id}`** → Retrieves an image by ID  )
+</details>
 
-[//]: # (  ![Get Image]&#40;assets/images/get-image.png&#41;)
-
-[//]: # ()
-
-[//]: # (- **`DELETE /api/images/{id}`** → Deletes an image  )
-
-[//]: # (  ![Delete Image]&#40;assets/images/delete-image.png&#41;)
-
-[//]: # ()
-
-[//]: # (</details>)
-
-[//]: # ()
 
 <details>
-
   <summary><b>Category</b></summary>
 
 - **`GET api/v1/neoshop/category/all`** → Retrieves all categories
@@ -302,15 +307,14 @@ online shopping platform, featuring product management, user authentication, and
        ![Delete Category](outputs/category/delete%20category.png)
     2. delete category error if not found
        ![Delete Category](outputs/category/delete%20category%20errorr.png)
-  
+
 - **`GET /api/v1/neoshop/category/find/{name}`** → get category by name
     1. get by name category
-       ![Delete Category](outputs/category/delete%20category.png)
+       ![Delete Category](outputs/category/find%20category%20by%20name.png)
     2. category error if not found
-       ![Delete Category](outputs/category/delete%20category%20errorr.png)
+       ![Delete Category](outputs/category/find%20category%20by%20name%20error.png)
 
 </details>
-
 
 ---
 

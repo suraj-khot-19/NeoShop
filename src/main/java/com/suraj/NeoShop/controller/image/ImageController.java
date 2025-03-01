@@ -1,6 +1,7 @@
 package com.suraj.NeoShop.controller.image;
 
 import com.suraj.NeoShop.dto.ImageDto;
+import com.suraj.NeoShop.mapper.Mapper;
 import com.suraj.NeoShop.model.Image;
 import com.suraj.NeoShop.response.SendResponse;
 import com.suraj.NeoShop.service.image.ImageService;
@@ -25,8 +26,10 @@ public class ImageController {
 
     /// get image by id
     @GetMapping("/{id}")
-    public ResponseEntity<SendResponse<Image>> getImageById(@PathVariable Long id) {
-        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Image Fetched Successfully!", service.getImageById(id)));
+    public ResponseEntity<SendResponse<ImageDto>> getImageById(@PathVariable Long id) {
+        Image image = service.getImageById(id);
+        ImageDto imageDto = Mapper.convertToImageDto(image);
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Image Fetched Successfully!", imageDto));
     }
 
     /// delete image by id
