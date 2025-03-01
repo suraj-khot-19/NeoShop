@@ -263,43 +263,53 @@ online shopping platform, featuring product management, user authentication, and
 
 [//]: # ()
 
-[//]: # (<details>)
+<details>
 
-[//]: # (  <summary><b>Category</b></summary>)
+  <summary><b>Category</b></summary>
 
-[//]: # ()
+- **`GET api/v1/neoshop/category/all`** → Retrieves all categories
+    1. get all category
+       ![Get Categories](outputs/category/get%20all%20category.png)
 
-[//]: # (- **`GET /api/categories`** → Retrieves all categories  )
+- **`GET /api/v1/neoshop/category/{id}`** → Retrieves a category by ID
+    1. get category by id
+       ![Get Category](outputs/category/category%20by%20id.png)
+    2. get category error
+       ![Get Category](outputs/category/category%20by%20id%20error.png)
 
-[//]: # (  ![Get Categories]&#40;assets/images/get-categories.png&#41;)
+- **`POST api/v1/neoshop/category/new`** → Creates a new category (Admin only)
+    1. body json
+        ```json
+         {
+         "name":"Shoes"
+         } 
+       ```
+    2. create category
+       ![Create Category](outputs/category/create%20new%20category.png)
+    3. create category error
+       ![Create Category](outputs/category/create%20new%20category%20error.png)
 
-[//]: # ()
+- **`PUT /api/v1/neoshop/category/{id}}`** → Updates an existing category (Admin only)
+    1. update category
+       ![Update Category](outputs/category/update%20category.png)
+    2. update category error if category not found
+       ![Update Category](outputs/category/update%20category%20error%20not%20found.png)
+    3. update category error if exists
+       ![Update Category](outputs/category/update%20category%20error.png)
 
-[//]: # (- **`GET /api/categories/{id}`** → Retrieves a category by ID  )
+- **`DELETE api/v1/neoshop/category/{id}`** → Deletes a category (Admin only)
+    1. delete category
+       ![Delete Category](outputs/category/delete%20category.png)
+    2. delete category error if not found
+       ![Delete Category](outputs/category/delete%20category%20errorr.png)
+  
+- **`GET /api/v1/neoshop/category/find/{name}`** → get category by name
+    1. get by name category
+       ![Delete Category](outputs/category/delete%20category.png)
+    2. category error if not found
+       ![Delete Category](outputs/category/delete%20category%20errorr.png)
 
-[//]: # (  ![Get Category]&#40;assets/images/get-category-by-id.png&#41;)
-
-[//]: # ()
-
-[//]: # (- **`POST /api/categories`** → Creates a new category &#40;Admin only&#41;  )
-
-[//]: # (  ![Create Category]&#40;assets/images/post-category.png&#41;)
-
-[//]: # ()
-
-[//]: # (- **`PUT /api/categories/{id}`** → Updates an existing category &#40;Admin only&#41;  )
-
-[//]: # (  ![Update Category]&#40;assets/images/put-category.png&#41;)
-
-[//]: # ()
-
-[//]: # (- **`DELETE /api/categories/{id}`** → Deletes a category &#40;Admin only&#41;  )
-
-[//]: # (  ![Delete Category]&#40;assets/images/delete-category.png&#41;)
-
-[//]: # ()
-
-[//]: # (</details>)
+</details>
 
 
 ---
