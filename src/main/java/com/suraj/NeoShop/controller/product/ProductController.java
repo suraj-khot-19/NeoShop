@@ -60,61 +60,66 @@ public class ProductController {
 
     /// update an existing product
     @PutMapping("/update/{id}")
-    public ResponseEntity<SendResponse<Product>> updateProduct(@RequestBody RequestProduct product, @PathVariable Long id) {
-        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Product Updated Successfully!", service.updateProduct(product, id)));
+    public ResponseEntity<SendResponse<ProductDto>> updateProduct(@RequestBody RequestProduct product, @PathVariable Long id) {
+        Product updateProduct = service.updateProduct(product, id);
+        ProductDto productDto = Mapper.convertToProductDto(updateProduct);
+
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Product Updated Successfully!", productDto));
     }
 
     /// get products by category name
     @GetMapping("/category/{category}")
-    public ResponseEntity<SendResponse<List<Product>>> getProductsByCategory(@PathVariable(name = "category") String name) {
+    public ResponseEntity<SendResponse<List<ProductDto>>> getProductsByCategory(@PathVariable(name = "category") String name) {
         List<Product> products = service.getProductsByCategory(name);
-        if (products.isEmpty()) {
+        List<ProductDto> productDto = Mapper.convertToListProductDto(products);
+        if (productDto.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new SendResponse<>(HttpStatus.NOT_FOUND, "No Products Found!", null));
         }
-        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", products));
-
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", productDto));
     }
 
     /// get products by brand
     @GetMapping("/brand/{brand}")
-    public ResponseEntity<SendResponse<List<Product>>> getProductsByBrand(@PathVariable String brand) {
+    public ResponseEntity<SendResponse<List<ProductDto>>> getProductsByBrand(@PathVariable String brand) {
         List<Product> products = service.getProductsByBrand(brand);
-        if (products.isEmpty()) {
+        List<ProductDto> productDto = Mapper.convertToListProductDto(products);
+        if (productDto.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new SendResponse<>(HttpStatus.NOT_FOUND, "No Products Found!", null));
         }
-        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", products));
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", productDto));
 
     }
 
     /// get products by brand and category
     @GetMapping("/category/{category}/brand/{brand}")
-    public ResponseEntity<SendResponse<List<Product>>> getProductsByCategoryNameAndBrand(@PathVariable(name = "category") String category, @PathVariable(name = "brand") String brand) {
+    public ResponseEntity<SendResponse<List<ProductDto>>> getProductsByCategoryNameAndBrand(@PathVariable(name = "category") String category, @PathVariable(name = "brand") String brand) {
         List<Product> products = service.getProductsByCategoryNameAndBrand(category, brand);
-        if (products.isEmpty()) {
+        List<ProductDto> productDto = Mapper.convertToListProductDto(products);
+        if (productDto.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new SendResponse<>(HttpStatus.NOT_FOUND, "No Products Found!", null));
         }
-        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", products));
-
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", productDto));
     }
 
     /// get products by name
     @GetMapping("/find/{name}")
-    public ResponseEntity<SendResponse<List<Product>>> getProductsByName(@PathVariable String name) {
+    public ResponseEntity<SendResponse<List<ProductDto>>> getProductsByName(@PathVariable String name) {
         List<Product> products = service.getProductsByName(name);
-        if (products.isEmpty()) {
+        List<ProductDto> productDto = Mapper.convertToListProductDto(products);
+        if (productDto.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new SendResponse<>(HttpStatus.NOT_FOUND, "Products Not Found!", null));
         }
-        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", products));
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", productDto));
     }
 
     /// get products by name and brand
     @GetMapping("/find/{name}/brand/{brand}")
-    public ResponseEntity<SendResponse<List<Product>>> getProductsByNameAndBrand(@PathVariable(name = "name") String name, @PathVariable(name = "brand") String brand) {
+    public ResponseEntity<SendResponse<List<ProductDto>>> getProductsByNameAndBrand(@PathVariable(name = "name") String name, @PathVariable(name = "brand") String brand) {
         List<Product> products = service.getProductsByNameAndBrand(name, brand);
-        if (products.isEmpty()) {
+        List<ProductDto> productDto = Mapper.convertToListProductDto(products);
+        if (productDto.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new SendResponse<>(HttpStatus.NOT_FOUND, "Products Not Found!", null));
         }
-        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", products));
-
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Products Fetched Successfully!", productDto));
     }
 }
