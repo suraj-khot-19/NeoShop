@@ -33,4 +33,9 @@ public class CartServiceImpl implements CartService {
         cartRepository.deleteById(id);
     }
 
+    @Override
+    public BigDecimal getTotalAmount(Long id) {
+        Cart cart = getCart(id);
+        return cart.getTotalAmount();
+    }
 }
