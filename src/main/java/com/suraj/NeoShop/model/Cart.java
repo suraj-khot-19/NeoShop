@@ -23,4 +23,28 @@ public class Cart {
     /// One Cart can contain many CartItems
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> items;
+
+    /// cart items config
+    public void addItem(CartItem item) {
+        this.items.add(item);
+        item.setCart(this);
+        updateTotalAmount();
+    }
+
+    public void removeItem(CartItem item) {
+        this.items.remove(item);
+        item.setCart(null);
+        updateTotalAmount();
+    }
+
+    public void updateTotalAmount() {
+        this.totalAmount = items.stream()
+                .map(item -> {
+                    BigDecimal unitPrice = item.getUnitPrice();
+                    if (unitPrice == null) {
+                        return BigDecimal.ZERO;
+                    }
+                    return unitPrice.multiply(new BigDecimal(item.getQuantity()));
+                }).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
