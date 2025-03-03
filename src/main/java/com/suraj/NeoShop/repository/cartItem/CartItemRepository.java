@@ -1,4 +1,4 @@
-package com.suraj.NeoShop.repository.cart;
+package com.suraj.NeoShop.repository.cartItem;
 
 import com.suraj.NeoShop.model.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
