@@ -6,4 +6,5 @@ import java.math.BigDecimal;
 
 public interface CartService {
     Cart getCart(Long id);
+    void clearCart(Long id);
 }

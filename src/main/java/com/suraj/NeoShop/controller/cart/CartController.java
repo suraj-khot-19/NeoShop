@@ -6,10 +6,7 @@ import com.suraj.NeoShop.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,5 +17,11 @@ public class CartController {
     @GetMapping("/{id}")
     public ResponseEntity<SendResponse<Cart>> getCart(@PathVariable Long id) {
         return ResponseEntity.ok(new SendResponse<>(HttpStatus.OK, "Cart Fetched Successfully!", service.getCart(id)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SendResponse<Void>> clearCart(@PathVariable Long id) {
+        service.clearCart(id);
+        return ResponseEntity.ok(new SendResponse<>(HttpStatus.NO_CONTENT, "Cart Cleared Successfully!", null));
     }
 }

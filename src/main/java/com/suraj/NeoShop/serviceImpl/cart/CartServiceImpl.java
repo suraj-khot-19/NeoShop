@@ -24,4 +24,13 @@ public class CartServiceImpl implements CartService {
         cart.setTotalAmount(totalAmount);
         return cartRepository.save(cart);
     }
+
+    @Override
+    public void clearCart(Long id) {
+        Cart cart = getCart(id);
+        cartItemRepository.deleteAllByCartId(id);
+        cart.getItems().clear();
+        cartRepository.deleteById(id);
+    }
+
 }
